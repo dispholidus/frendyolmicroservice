@@ -23,6 +23,8 @@ import java.util.List;
 public abstract class OrderDTOMapper {
     @Value("${product.url}")
     private String PRODUCT_URL ;
+    @Value("${user.url}")
+    private String USER_URL;
 
     private final ObjectMapper mapper = new ObjectMapper();
     public Order orderDTOtoOrder(OrderRequestDTO orderRequestDTO){
@@ -32,6 +34,9 @@ public abstract class OrderDTOMapper {
         JsonNode productsJson = restTemplate.postForObject(
                 PRODUCT_URL , orderRequestDTO.getProducts() , JsonNode.class);
         List<Product> products = new ArrayList<>();
+        String url =USER_URL + "/" + orderRequestDTO.getUsername();
+        String user = restTemplate.postForObject(
+                 url ,null, String.class);
 
         productsJson.forEach(jsonNode ->{
             try {
@@ -47,6 +52,7 @@ public abstract class OrderDTOMapper {
             totalPrice += product.getProductPrice();
         }
         order.setTotalPrice(totalPrice);
+        order.setUser(user);
         return order;
     }
     abstract public OrderResponseDTO orderToOrderDTO(Order order);

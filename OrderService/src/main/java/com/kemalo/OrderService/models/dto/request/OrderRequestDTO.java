@@ -12,4 +12,5 @@ import java.util.List;
 public class OrderRequestDTO {
 
     private List<String> products;
+    private String username;
 }

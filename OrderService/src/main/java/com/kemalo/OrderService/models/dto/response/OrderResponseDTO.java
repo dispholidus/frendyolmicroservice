@@ -12,4 +12,5 @@ import java.util.List;
 public class OrderResponseDTO {
     private List<Product> products;
     private double totalPrice;
+    private String user;
 }

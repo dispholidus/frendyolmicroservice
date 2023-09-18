@@ -18,4 +18,5 @@ public class Order {
 
     private List<Product> products;
     private double totalPrice;
+    private String user;
 }
