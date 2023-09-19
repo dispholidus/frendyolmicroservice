@@ -19,4 +19,8 @@ public class UserController {
     public User addUser(@RequestBody User user){
         return userService.addUser(user.getUsername());
     }
+    @DeleteMapping("/user/{username}")
+    public String deleteUserById(@PathVariable String username){
+        return userService.deleteUserById(username);
+    }
 }

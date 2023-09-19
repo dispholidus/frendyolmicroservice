@@ -5,6 +5,8 @@ import com.kemalo.OrderService.models.dto.response.OrderResponseDTO;
 import com.kemalo.OrderService.services.interfaces.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,7 +22,7 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
-    public OrderResponseDTO addOrder(@RequestBody OrderRequestDTO orderRequestDTO){
-        return orderService.addOrder(orderRequestDTO);
+    public ResponseEntity<OrderResponseDTO> addOrder(@RequestBody OrderRequestDTO orderRequestDTO){
+        return new ResponseEntity<>(orderService.addOrder(orderRequestDTO),HttpStatusCode.valueOf(200));
     }
 }

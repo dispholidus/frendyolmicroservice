@@ -17,4 +17,8 @@ public class UserService {
         User user = new User(username);
         return userRepository.save(user);
     }
+    public String deleteUserById(String username){
+        userRepository.deleteById(username);
+        return "success";
+    }
 }

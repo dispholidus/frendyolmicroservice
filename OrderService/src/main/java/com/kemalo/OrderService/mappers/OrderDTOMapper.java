@@ -37,7 +37,6 @@ public abstract class OrderDTOMapper {
         String url =USER_URL + "/" + orderRequestDTO.getUsername();
         String user = restTemplate.postForObject(
                  url ,null, String.class);
-
         productsJson.forEach(jsonNode ->{
             try {
                 products.add(mapper.readValue(jsonNode.toString(),Product.class));
