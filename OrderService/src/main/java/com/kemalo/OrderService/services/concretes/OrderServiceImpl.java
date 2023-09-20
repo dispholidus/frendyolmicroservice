@@ -9,7 +9,10 @@ import com.kemalo.OrderService.services.interfaces.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,7 +24,9 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     @Autowired
     private final OrderDTOMapper mapper;
+
     @Override
+    @Transactional
     public OrderResponseDTO addOrder(OrderRequestDTO orderRequestDTO) {
         Order order = mapper.orderDTOtoOrder(orderRequestDTO);
         return mapper.orderToOrderDTO(orderRepository.save(order));
@@ -33,5 +38,28 @@ public class OrderServiceImpl implements OrderService {
         if (order.isPresent())
             return mapper.orderToOrderDTO(order.get());
         throw new RuntimeException("hata");
+    }
+    @Override
+    public List<OrderResponseDTO> getOrders() {
+        List<OrderResponseDTO> response = new ArrayList<>();
+        List<Order> orders = orderRepository.findAll();
+        for (Order order: orders) {
+            response.add(mapper.orderToOrderDTO(order));
+        }
+        return response;
+    }
+
+    @Override
+    public OrderResponseDTO setOrderStatus(String orderId){
+        Order order = orderRepository.findById(orderId).get();
+        order.setOrderStatus(false);
+        return mapper.orderToOrderDTO(orderRepository.save(order));
+    }
+
+    @Override
+    @Transactional
+    public String deleteOrdersByStatus() {
+        orderRepository.deleteByOrderStatusEquals(false);
+        return "Success";
     }
 }

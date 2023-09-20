@@ -9,20 +9,34 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/order")
 @RequiredArgsConstructor
 public class OrderController {
     @Autowired
     private final OrderService orderService;
 
-    @GetMapping("/orders/{orderId}")
+    @GetMapping("/{orderId}")
     public OrderResponseDTO getOrderById(@PathVariable String orderId){
         return orderService.getOrderById(orderId);
     }
+    @GetMapping("/getall")
+    public List<OrderResponseDTO> getOrders(){
+        return orderService.getOrders();
+    }
 
-    @PostMapping("/orders")
-    public ResponseEntity<OrderResponseDTO> addOrder(@RequestBody OrderRequestDTO orderRequestDTO){
-        return new ResponseEntity<>(orderService.addOrder(orderRequestDTO),HttpStatusCode.valueOf(200));
+    @PostMapping("/addorder")
+    public OrderResponseDTO addOrder(@RequestBody OrderRequestDTO orderRequestDTO){
+        return orderService.addOrder(orderRequestDTO);
+    }
+    @PutMapping("/{orderId}")
+    public OrderResponseDTO setOrderStatus(@PathVariable String orderId){
+        return orderService.setOrderStatus(orderId);
+    }
+    @GetMapping("/cleanup")
+    public String deleteByOrderStatus(){
+        return orderService.deleteOrdersByStatus();
     }
 }

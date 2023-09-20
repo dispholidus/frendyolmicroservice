@@ -6,20 +6,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/user/{username}")
+    @PostMapping("/{username}")
     public String getUserById(@PathVariable String username){
         return userService.getUserById(username).getUsername();
     }
-    @PostMapping("/user")
+    @PostMapping("/adduser")
     public User addUser(@RequestBody User user){
         return userService.addUser(user.getUsername());
     }
-    @DeleteMapping("/user/{username}")
+    @DeleteMapping("/{username}")
     public String deleteUserById(@PathVariable String username){
         return userService.deleteUserById(username);
     }

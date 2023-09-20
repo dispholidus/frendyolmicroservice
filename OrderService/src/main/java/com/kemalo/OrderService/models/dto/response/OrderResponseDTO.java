@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderResponseDTO {
+    private String orderId;
     private List<Product> products;
     private double totalPrice;
     private String user;

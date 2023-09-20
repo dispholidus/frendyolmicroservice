@@ -18,14 +18,14 @@ public class GatewayConfig {
     @Bean
     public RouteLocator routeLocator (RouteLocatorBuilder builder){
         return builder.routes()
-                .route(r-> r.path("/api/v1/orders/**")
-                        .and().method("GET", "POST")
+                .route(r-> r.path("/api/v1/order/**")
+                        .and().method("GET", "POST","PUT","DELETE")
                         .uri(ORDER_URL))
                 .route(r-> r.path("/api/v1/product/**")
                         .and().method("GET", "POST","PUT","DELETE")
                         .uri(PRODUCT_URL))
                 .route(r-> r.path("/api/v1/user/**")
-                        .and().method("GET", "POST","DELETE")
+                        .and().method("GET", "POST","PUT","DELETE")
                         .uri(USER_URL))
                 .build();
     }

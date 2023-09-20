@@ -11,33 +11,33 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/product")
 public class ProductController {
     @Autowired
     ProductService productService;
 
-    @GetMapping("/product/{productId}")
+    @GetMapping("/{productId}")
     public Product getProductById(@PathVariable String productId){
         return productService.getProductById(productId);
     }
-    @PostMapping("/products")
+    @PostMapping("/getbylist")
     public List<Product> getProductsByIdList(@RequestBody List<String> productIdList){
         return productService.getProductsByIdList(productIdList);
     }
-    @GetMapping("/product")
+    @GetMapping("/getall")
     public List<Product> getProducts(){
         return productService.getProducts();
     }
-    @PostMapping("/product")
+    @PostMapping("/add")
     public Product addProduct(@RequestBody Product product){
         return productService.addProduct(product);
     }
 
-    @DeleteMapping("/product/{productId}")
+    @DeleteMapping("/{productId}")
     public Product deleteProduct(@PathVariable String productId){
         return productService.deleteProduct(productId);
     }
-    @PutMapping("/product")
+    @PutMapping("/update")
     public Product updateProduct(@RequestBody Product product){
         return productService.updateProduct(product);
     }

@@ -52,6 +52,7 @@ public abstract class OrderDTOMapper {
         }
         order.setTotalPrice(totalPrice);
         order.setUser(user);
+        order.setOrderStatus(true);
         return order;
     }
     abstract public OrderResponseDTO orderToOrderDTO(Order order);
