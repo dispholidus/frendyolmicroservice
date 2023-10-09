@@ -1,5 +1,6 @@
 package com.kemalo.OrderService.models.concrete;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
-
+    @JsonProperty("productId")
+    @JsonIgnore
+    private String productId;
     @JsonProperty("productName")
     private String productName;
     @JsonProperty("productDesc")

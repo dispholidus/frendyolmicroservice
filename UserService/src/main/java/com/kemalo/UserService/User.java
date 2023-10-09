@@ -1,18 +1,20 @@
-package com.kemalo.UserService.models.dto;
+package com.kemalo.UserService;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserSignUpRequestDTO {
-    @JsonProperty("username")
+@Table(name = "users")
+public class User{
+    @Id
+    @Column(name = "username")
     private String username;
-    @JsonProperty("password")
-    private String password;
 }

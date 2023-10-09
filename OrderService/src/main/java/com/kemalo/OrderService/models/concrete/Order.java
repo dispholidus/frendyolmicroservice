@@ -18,4 +18,6 @@ public class Order {
 
     private List<Product> products;
     private double totalPrice;
+    private User user;
+    private boolean orderStatus = true;
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.kemalo.OrderService.models.concrete.Order;
 import com.kemalo.OrderService.models.concrete.Product;
+import com.kemalo.OrderService.models.concrete.User;
 import com.kemalo.OrderService.models.dto.request.OrderRequestDTO;
 import com.kemalo.OrderService.models.dto.response.OrderResponseDTO;
 import io.swagger.v3.core.util.Json;
@@ -23,6 +24,8 @@ import java.util.List;
 public abstract class OrderDTOMapper {
     @Value("${product.url}")
     private String PRODUCT_URL ;
+    @Value("${user.url}")
+    private String USER_URL;
 
     private final ObjectMapper mapper = new ObjectMapper();
     public Order orderDTOtoOrder(OrderRequestDTO orderRequestDTO){
@@ -30,9 +33,11 @@ public abstract class OrderDTOMapper {
         Order order = new Order();
 
         JsonNode productsJson = restTemplate.postForObject(
-                PRODUCT_URL , orderRequestDTO.getProducts() , JsonNode.class);
+                PRODUCT_URL + "/getbylist", orderRequestDTO.getProducts() , JsonNode.class);
         List<Product> products = new ArrayList<>();
-
+        String url =USER_URL + "/" + orderRequestDTO.getUsername();
+        User user = restTemplate.getForObject(
+                 url , User.class);
         productsJson.forEach(jsonNode ->{
             try {
                 products.add(mapper.readValue(jsonNode.toString(),Product.class));
@@ -47,6 +52,8 @@ public abstract class OrderDTOMapper {
             totalPrice += product.getProductPrice();
         }
         order.setTotalPrice(totalPrice);
+        order.setUser(user);
+        order.setOrderStatus(true);
         return order;
     }
     abstract public OrderResponseDTO orderToOrderDTO(Order order);
