@@ -1,5 +1,0 @@
-{
-    "yaml.schemas": {
-        "kubernetes://schema/apps/v1%40deployment": "file:///c%3A/Users/VKT-/Desktop/Projects/Java/frendyolmicroservice/Kubernetes/Frendyol-Microservices/user-service.deployment.yaml"
-    }
-}

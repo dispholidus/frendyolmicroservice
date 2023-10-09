@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.kemalo.OrderService.models.concrete.Order;
 import com.kemalo.OrderService.models.concrete.Product;
+import com.kemalo.OrderService.models.concrete.User;
 import com.kemalo.OrderService.models.dto.request.OrderRequestDTO;
 import com.kemalo.OrderService.models.dto.response.OrderResponseDTO;
 import io.swagger.v3.core.util.Json;
@@ -32,11 +33,11 @@ public abstract class OrderDTOMapper {
         Order order = new Order();
 
         JsonNode productsJson = restTemplate.postForObject(
-                PRODUCT_URL , orderRequestDTO.getProducts() , JsonNode.class);
+                PRODUCT_URL + "/getbylist", orderRequestDTO.getProducts() , JsonNode.class);
         List<Product> products = new ArrayList<>();
         String url =USER_URL + "/" + orderRequestDTO.getUsername();
-        String user = restTemplate.postForObject(
-                 url ,null, String.class);
+        User user = restTemplate.getForObject(
+                 url , User.class);
         productsJson.forEach(jsonNode ->{
             try {
                 products.add(mapper.readValue(jsonNode.toString(),Product.class));
