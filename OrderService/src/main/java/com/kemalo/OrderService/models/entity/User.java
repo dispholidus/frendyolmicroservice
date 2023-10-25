@@ -1,4 +1,4 @@
-package com.kemalo.OrderService.models.concrete;
+package com.kemalo.OrderService.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.kemalo.OrderService.models.concrete;
+package com.kemalo.OrderService.models.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +17,6 @@ public class Order {
     private String orderId;
 
     private List<Product> products;
+    private String username;
     private double totalPrice;
-    private User user;
-    private boolean orderStatus = true;
 }

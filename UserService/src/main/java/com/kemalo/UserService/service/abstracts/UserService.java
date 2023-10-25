@@ -1,4 +1,6 @@
-package com.kemalo.UserService;
+package com.kemalo.UserService.service.abstracts;
+
+import com.kemalo.UserService.model.User;
 
 public interface UserService {
 

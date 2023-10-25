@@ -1,7 +1,6 @@
 package com.kemalo.OrderService.models.dto.response;
 
 import com.kemalo.OrderService.models.entity.Product;
-import com.kemalo.OrderService.models.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,9 +11,9 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderResponseDTO {
-    private String orderId;
+public class CartResponseDTO {
+    private String cartId;
     private List<Product> products;
-    private double totalPrice;
     private String username;
+    private double totalPrice;
 }
