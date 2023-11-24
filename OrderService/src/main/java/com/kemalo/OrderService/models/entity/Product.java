@@ -1,4 +1,4 @@
-package com.kemalo.OrderService.models.concrete;
+package com.kemalo.OrderService.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,10 +15,8 @@ public class Product {
     private String productId;
     @JsonProperty("productName")
     private String productName;
-    @JsonProperty("productDesc")
-    private String productDesc;
-    @JsonProperty("productAvailable")
-    private int productAvailable;
     @JsonProperty("productPrice")
     private double productPrice;
+    @JsonProperty("Count")
+    private int count;
 }

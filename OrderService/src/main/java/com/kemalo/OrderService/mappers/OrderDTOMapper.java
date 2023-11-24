@@ -1,19 +1,14 @@
 package com.kemalo.OrderService.mappers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.kemalo.OrderService.models.concrete.Order;
-import com.kemalo.OrderService.models.concrete.Product;
-import com.kemalo.OrderService.models.concrete.User;
+import com.kemalo.OrderService.models.entity.Cart;
+import com.kemalo.OrderService.models.entity.Order;
+import com.kemalo.OrderService.models.entity.Product;
+import com.kemalo.OrderService.models.entity.User;
 import com.kemalo.OrderService.models.dto.request.OrderRequestDTO;
 import com.kemalo.OrderService.models.dto.response.OrderResponseDTO;
-import io.swagger.v3.core.util.Json;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.mapstruct.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,21 +21,24 @@ public abstract class OrderDTOMapper {
     private String PRODUCT_URL ;
     @Value("${user.url}")
     private String USER_URL;
-
+    RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper mapper = new ObjectMapper();
     public Order orderDTOtoOrder(OrderRequestDTO orderRequestDTO){
-        RestTemplate restTemplate = new RestTemplate();
+
         Order order = new Order();
 
         JsonNode productsJson = restTemplate.postForObject(
-                PRODUCT_URL + "/getbylist", orderRequestDTO.getProducts() , JsonNode.class);
+                PRODUCT_URL + "/productslist", orderRequestDTO.getProducts() , JsonNode.class);
         List<Product> products = new ArrayList<>();
         String url =USER_URL + "/" + orderRequestDTO.getUsername();
         User user = restTemplate.getForObject(
                  url , User.class);
         productsJson.forEach(jsonNode ->{
             try {
-                products.add(mapper.readValue(jsonNode.toString(),Product.class));
+                Product product = mapper.readValue(jsonNode.toString(),Product.class);
+                product.setCount(5);
+                products.add(product);
+
             }catch (Exception e){
                 System.out.println(e.toString());
             }});
@@ -52,9 +50,9 @@ public abstract class OrderDTOMapper {
             totalPrice += product.getProductPrice();
         }
         order.setTotalPrice(totalPrice);
-        order.setUser(user);
-        order.setOrderStatus(true);
+        order.setUsername(user.getUsername());
         return order;
     }
     abstract public OrderResponseDTO orderToOrderDTO(Order order);
+    abstract public Order cartToOrder(Cart cart);
 }

@@ -1,10 +1,12 @@
 package com.kemalo.OrderService.services.concretes;
 
 import com.kemalo.OrderService.mappers.OrderDTOMapper;
-import com.kemalo.OrderService.models.concrete.Order;
+import com.kemalo.OrderService.models.entity.Cart;
+import com.kemalo.OrderService.models.entity.Order;
 import com.kemalo.OrderService.models.dto.request.OrderRequestDTO;
 import com.kemalo.OrderService.models.dto.response.OrderResponseDTO;
 import com.kemalo.OrderService.repositories.OrderRepository;
+import com.kemalo.OrderService.services.interfaces.CartService;
 import com.kemalo.OrderService.services.interfaces.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,9 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
 
 
-    @Autowired
     private final OrderRepository orderRepository;
-    @Autowired
     private final OrderDTOMapper mapper;
+    private final CartService cartService;
 
     @Override
     @Transactional
@@ -50,16 +51,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponseDTO setOrderStatus(String orderId){
-        Order order = orderRepository.findById(orderId).get();
-        order.setOrderStatus(false);
-        return mapper.orderToOrderDTO(orderRepository.save(order));
-    }
-
-    @Override
     @Transactional
-    public String deleteOrdersByStatus() {
-        orderRepository.deleteByOrderStatusEquals(false);
-        return "Success";
+    public OrderResponseDTO checkout(String cartId) {
+        Cart cart = cartService.findCartById(cartId);
+        Order order = mapper.cartToOrder(cart);
+        return mapper.orderToOrderDTO(orderRepository.save(order));
     }
 }
