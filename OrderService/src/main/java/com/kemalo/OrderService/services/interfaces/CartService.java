@@ -15,4 +15,5 @@ public interface CartService {
     CartResponseDTO addProductToCart(CartRequestDTO cartRequestDTO);
     List<CartResponseDTO> getCarts();
     Cart findCartById(String cartId);
+    void deleteCartById(String cartId);
 }

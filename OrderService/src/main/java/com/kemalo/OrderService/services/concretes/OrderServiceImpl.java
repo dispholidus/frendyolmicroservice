@@ -26,12 +26,6 @@ public class OrderServiceImpl implements OrderService {
     private final OrderDTOMapper mapper;
     private final CartService cartService;
 
-    @Override
-    @Transactional
-    public OrderResponseDTO addOrder(OrderRequestDTO orderRequestDTO) {
-        Order order = mapper.orderDTOtoOrder(orderRequestDTO);
-        return mapper.orderToOrderDTO(orderRepository.save(order));
-    }
 
     @Override
     public OrderResponseDTO getOrderById(String id) {
@@ -54,7 +48,10 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderResponseDTO checkout(String cartId) {
         Cart cart = cartService.findCartById(cartId);
+        System.out.println(cart.getTotalPrice());
         Order order = mapper.cartToOrder(cart);
-        return mapper.orderToOrderDTO(orderRepository.save(order));
+        OrderResponseDTO orderResponseDTO = mapper.orderToOrderDTO(orderRepository.save(order));
+        cartService.deleteCartById(cartId);
+        return orderResponseDTO;
     }
 }

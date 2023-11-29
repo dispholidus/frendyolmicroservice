@@ -7,7 +7,6 @@ import com.kemalo.OrderService.models.entity.Cart;
 import java.util.List;
 
 public interface OrderService {
-    OrderResponseDTO addOrder(OrderRequestDTO OrderRequestDTO);
     OrderResponseDTO getOrderById(String id);
     List<OrderResponseDTO> getOrders();
     OrderResponseDTO checkout(String cartId);

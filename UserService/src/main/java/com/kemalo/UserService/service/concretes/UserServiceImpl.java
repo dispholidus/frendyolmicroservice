@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,5 +48,10 @@ public class UserServiceImpl implements UserService {
                 (user.getUsername()==null || user.getUsername().isEmpty()) ? updatedUser.getUsername() : user.getUsername());
             return userRepository.save(updatedUser);
 
+    }
+
+    @Override
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
 }

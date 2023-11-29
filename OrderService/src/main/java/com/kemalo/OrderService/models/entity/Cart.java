@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 import java.util.List;
 
@@ -18,13 +19,8 @@ public class Cart {
     @Id
     private String cartId;
 
-    public Cart(String username, List<Product> products) {
-        this.products = products;
-        this.username = username;
-        this.totalPrice = products.get(0).getProductPrice() * products.get(0).getCount();
-    }
-
     private List<Product> products;
+    @Indexed
     private String username;
     private double totalPrice;
 }
