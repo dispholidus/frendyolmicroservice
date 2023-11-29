@@ -1,13 +1,14 @@
 package com.kemalo.ProductService.services;
 
-import com.kemalo.ProductService.models.Product;
+import com.kemalo.ProductService.models.dto.CheckoutDTO;
+import com.kemalo.ProductService.models.entities.Product;
 import com.kemalo.ProductService.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,12 +20,10 @@ public class ProductServiceImpl implements ProductService{
     private final ProductRepository productRepository;
     @Override
     public Product getProductById(String productId) {
-        return productRepository.findById(productId).get();
-    }
-
-    @Override
-    public List<Product> getProductsByIdList(List<String> productIdList) {
-        return productRepository.findAllById(productIdList);
+        Optional<Product> product = productRepository.findById(productId);
+        if (product.isPresent())
+            return product.get();
+        throw new RuntimeException("Product not found with given ID");
     }
 
     @Override
@@ -62,6 +61,27 @@ public class ProductServiceImpl implements ProductService{
         throw new RuntimeException();
     }
 
+    @Override
+    public Boolean checkout(List<CheckoutDTO> boughtProductList) {
+        Product product = null;
+        List<Product> products = new ArrayList<>();
+        for (CheckoutDTO object: boughtProductList) {
+            product = this.getProductById(object.getProductId());
+            if (product.getProductAvailable() < object.getProductBought()){
+                return false;
+            }
+            int finalProductCount = product.getProductAvailable() - object.getProductBought();
+            product.setProductAvailable(finalProductCount);
+            products.add(product);
+        }
+        productRepository.saveAll(products);
+        return true;
+    }
+
+    @Override
+    public List<Product> addProductBatch(List<Product> products) {
+        return productRepository.saveAll(products);
+    }
 
 
 }

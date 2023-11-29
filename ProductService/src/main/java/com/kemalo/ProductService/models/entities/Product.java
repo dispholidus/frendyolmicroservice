@@ -1,5 +1,6 @@
-package com.kemalo.ProductService.models;
+package com.kemalo.ProductService.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,14 +15,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Product {
 
     @Id
+    @JsonProperty("productId")
     private String productId;
 
-    @JsonProperty("productName")
     private String productName;
-    @JsonProperty("productDesc")
     private String productDesc;
-    @JsonProperty("productAvailable")
     private int productAvailable;
-    @JsonProperty("productPrice")
     private double productPrice;
 }

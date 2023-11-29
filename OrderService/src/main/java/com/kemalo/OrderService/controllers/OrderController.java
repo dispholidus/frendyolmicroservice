@@ -29,15 +29,8 @@ public class OrderController {
         return orderService.getOrders();
     }
 
-    @PostMapping
-    public OrderResponseDTO addOrder(@RequestBody OrderRequestDTO orderRequestDTO){
-        return orderService.addOrder(orderRequestDTO);
+    @PostMapping("/checkout/{cartId}")
+    public OrderResponseDTO checkout(@PathVariable String cartId){
+        return orderService.checkout(cartId);
     }
-
-    @PostMapping("/checkout/{username}")
-    public OrderResponseDTO checkout(@PathVariable String username){
-
-        return orderService.checkout(username);
-    }
-
 }
